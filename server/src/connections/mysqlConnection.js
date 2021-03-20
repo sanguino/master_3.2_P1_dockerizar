@@ -4,11 +4,17 @@ import DebugLib from 'debug';
 
 const debug = new DebugLib('server:mysql');
 
-export default new Sequelize('eoloplantsDB', 'root', 'password', {
-    dialect: 'mysql',
-    dialectModule: mysql2,
-    logging: false
-});
+export default new Sequelize(
+    process.env.MYSQL_DBNAME,
+    process.env.MYSQL_USER,
+    process.env.MYSQL_PASS,
+    {
+        host: process.env.MYSQL_HOST,
+        port: process.env.MYSQL_PORT,
+        dialect: 'mysql',
+        dialectModule: mysql2,
+        logging: false
+    });
 
 process.on('exit', async () => {
     await sequelize.close();
