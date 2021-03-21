@@ -6,10 +6,10 @@ services:
     ports:
     - 3000:3000
     environment:
-    - RABBIT_USER=guest
-    - RABBIT_PASS=guest
     - RABBIT_HOST=rabbitmq
     - RABBIT_PORT=5672
+    - RABBIT_USER=guest
+    - RABBIT_PASS=guest
     - MYSQL_DBNAME=eoloplantsDB
     - MYSQL_HOST=mysql
     - MYSQL_PORT=3306
@@ -22,11 +22,19 @@ services:
 
   planner: 
     image: sanguino/eolo-planner-plannerservice
-    ports:
-    - 8080:8080
     environment:
     - WEATHER_HOST=weatherservice
     - WEATHER_PORT=9090
+    - TOPO_HOST=toposervice
+    - TOPO_PORT=8080
+    - RABBIT_HOST=rabbitmq
+    - RABBIT_PORT=5672
+    - RABBIT_USER=guest
+    - RABBIT_PASS=guest
+    depends_on:
+    - toposervice
+    - weatherservice
+    command: ["./wait-for-it.sh", "-t", "120", "rabbitmq:5672", "--", "java", "-jar", "planner-0.0.1-SNAPSHOT.jar"]
 
   weatherservice: 
     image: sanguino/eolo-planner-weatherservice
