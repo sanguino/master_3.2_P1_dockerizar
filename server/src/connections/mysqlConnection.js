@@ -5,7 +5,7 @@ import DebugLib from 'debug';
 const debug = new DebugLib('server:mysql');
 
 export default new Sequelize(
-    process.env.MYSQL_DBNAME,
+    process.env.MYSQL_DATABASE,
     process.env.MYSQL_USER,
     process.env.MYSQL_PASS,
     {

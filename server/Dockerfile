@@ -1,13 +1,12 @@
 FROM node:lts
 
-ENV NODE_ENV production
 WORKDIR /usr/src/app
 
 RUN curl -LJO https://raw.githubusercontent.com/vishnubob/wait-for-it/master/wait-for-it.sh \
 && chmod +x ./wait-for-it.sh
 
 COPY package*.json /usr/src/app/
-RUN npm ci
+RUN npm ci --only=production
 
 COPY src/ /usr/src/app/src
 COPY config/ /usr/src/app/config
