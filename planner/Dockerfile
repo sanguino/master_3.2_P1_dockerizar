@@ -1,5 +1,7 @@
 FROM maven:3-openjdk-11 as builder 
 WORKDIR /project
+RUN curl -LJO https://raw.githubusercontent.com/vishnubob/wait-for-it/master/wait-for-it.sh \
+&& chmod +x ./wait-for-it.sh
 COPY pom.xml /project/
 RUN mvn clean verify --fail-never
 COPY /src /project/src
@@ -8,5 +10,6 @@ RUN mvn package
 FROM openjdk:11-jre-slim
 WORKDIR /usr/src/app/
 COPY --from=builder /project/target/*.jar /usr/src/app/
+COPY --from=builder /project/wait-for-it.sh /usr/src/app/
 EXPOSE 8080
-CMD [ "java", "-jar", "java-webapp-0.0.1.jar" ]
+CMD [ "java", "-jar", "planner-0.0.1-SNAPSHOT.jar" ]
