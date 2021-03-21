@@ -1,10 +1,10 @@
 # master_3.2_P1_dockerizar
 
 
-vamos a dockerizar la app:
+Se ha dockerizado la aplicación que ya teniamos de una asignatura anterior.
 
 
-## EoloPlanner
+## EoloPlanner, descripción original de la practica
 
 Este proyecto es una aplicación distribuida formada por diferentes servicios que se comunican entre sí usando API REST, gRPC y RabbitMQ. La aplicación ofrece un interfaz web que se comunica con el servidor con API REST y WebSockets. 
 
@@ -14,26 +14,62 @@ Para la construcción de los servicios y su ejecución, así como la ejecución 
 
 Esta solución está basada en el trabajo entregado por el alumno Miguel García Sanguino.
 
-### Iniciar servicios auxiliares: MongoDB, MySQL y RabbitMQ
 
-Los servicios auxiliares se ejecutan con la tecnología de contenedores Docker usando el siguiente comando:
+## Desarrollo en local
 
-```
-$ node exec_aux_services.js
-```
+Para el desarrollo en local todos los servicios tienen un `.devcontainer` configurado con todo lo necesario. 
 
-### Construir servicios
+Lo primero que necesitaremos es iniciar MongoDB, MySQL y RabbitMQ, para ello usamos el docker-compose de desarrollo:
 
-Descarga las dependencias y construye los proyectos. En proyectos Java usa Maven. En proyectos Node usa NPM:
 
 ```
-$ node build.js
+$ docker-compose -f docker-compose-dev.yml up -d
 ```
 
-### Ejecutar servicios
+El `.devcontainer` de cada servicio esta configurado para usar la red host, y con las variables de entorno necesarias para poder ejecutar el servicio directamente desde una terminal desde dentro del contenedor de desarrollo:
 
-Ejecuta los servicios. En proyectos Java usa Maven. En proyectos Node usa esta tecnología directamente:
+#### toposervice
 
 ```
-$ node exec.js
+$ mvn spring-boot:run
 ```
+
+#### weatherservice
+
+```
+$ node src/server.js
+```
+
+#### planner
+
+```
+$ mvn spring-boot:run
+```
+> si se quiere probar las llamadas a weatherservice y toposervice se deben levantar estos servicios antes.
+
+#### server
+
+```
+$ node src/server.js
+```
+
+## Publicar las imagenes en docker hub
+
+Para publicar las imagenes en docker hub se debe ejecutar el script:
+
+
+```
+$ ./buildAndPublish.sh
+```
+
+Se puede cambia la variable `$DOCKER_HUB_USER` para publicar las imagenes en otra cuenta.
+
+
+## Ejecutar en modo producción
+
+Se ejecutara el docker-compose yaml de forma normal. Todas las variables de entorno estan definidas en el fichero `production.env`
+
+```
+$ docker-compose up -d
+```
+
