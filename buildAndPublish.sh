@@ -21,3 +21,6 @@ mvn compile jib:build -Dimage=sanguino/eolo-planner-toposervice
 docker push $DOCKER_HUB_USER/eolo-planner-toposervice
 
 
+cd $BASEDIR/planner
+docker build . -t $DOCKER_HUB_USER/eolo-planner-plannerservice
+docker push $DOCKER_HUB_USER/eolo-planner-plannerservice
