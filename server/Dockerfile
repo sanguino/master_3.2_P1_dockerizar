@@ -12,5 +12,6 @@ RUN npm ci
 COPY src/ /usr/src/app/src
 COPY config/ /usr/src/app/config
 COPY public/ /usr/src/app/public
+EXPOSE 3000
 
 CMD ["node", "src/server.js"]
