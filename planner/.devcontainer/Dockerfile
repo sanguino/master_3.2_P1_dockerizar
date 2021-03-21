@@ -19,6 +19,14 @@ RUN if [ "${INSTALL_NODE}" = "true" ]; then su vscode -c "umask 0002 && . /usr/l
 ENV WEATHER_HOST=localhost
 ENV WEATHER_PORT=9090
 
+ENV TOPO_HOST=localhost
+ENV TOPO_PORT=8080
+
+ENV RABBIT_HOST=localhost
+ENV RABBIT_PORT=5672
+ENV RABBIT_USER=guest
+ENV RABBIT_PASS=guest
+
 # [Optional] Uncomment this section to install additional OS packages.
 # RUN apt-get update && export DEBIAN_FRONTEND=noninteractive \
 #     && apt-get -y install --no-install-recommends <your-package-list-here>
