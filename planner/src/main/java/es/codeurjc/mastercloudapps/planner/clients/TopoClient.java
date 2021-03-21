@@ -1,6 +1,7 @@
 package es.codeurjc.mastercloudapps.planner.clients;
 
 import es.codeurjc.mastercloudapps.planner.models.LandscapeResponse;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
@@ -10,8 +11,11 @@ import java.util.concurrent.CompletableFuture;
 @Service
 public class TopoClient {
 
-    private static final String TOPO_HOST = "localhost";
-    private static final int TOPO_PORT = 8080;
+    @Value("${toposervice.host}")
+    private String TOPO_HOST;
+
+    @Value("${toposervice.port}")
+    private String TOPO_PORT;
 
     @Async
     public CompletableFuture<String> getLandscape(String city) {
